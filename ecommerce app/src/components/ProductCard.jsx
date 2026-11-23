@@ -1,0 +1,10 @@
+import { Link } from 'react-router-dom';
+import { useStore } from '../context/StoreContext';
+import { ActionButton, Empty, Icon, money, Stars, StoreImage } from './Ui';
+export function ProductCard({ product: p }) {
+  const { addToCart, toggleWishlist, wishIds, compare, toggleCompare, notify } = useStore();
+  const wished = wishIds.has(p._id); const compared = compare.some(item => item._id === p._id);
+  function handleCompare() { if (!compared && compare.length >= 3) notify('Compare up to 3 products at a time.'); else toggleCompare(p); }
+  return <article className="product-card"><Link to={`/products/${p._id}`} className="product-image"><StoreImage src={p.imageCover} alt={p.title}/></Link><div className="card-actions"><ActionButton className={`round ${wished ? 'selected' : ''}`} requireAuth action={() => toggleWishlist(p)} aria-label={`${wished ? 'Remove from' : 'Add to'} wishlist`} aria-pressed={wished}><Icon name="heart"/></ActionButton><button className={`round ${compared ? 'selected' : ''}`} onClick={handleCompare} aria-label={`Compare ${p.title}`} aria-pressed={compared}><Icon name="compare"/></button><Link className="round" to={`/products/${p._id}`} aria-label={`View ${p.title}`}><Icon name="eye"/></Link></div><div className="card-info"><small>{p.category?.name}</small><Link className="product-title" to={`/products/${p._id}`}>{p.title}</Link><div className="rating"><Stars value={p.ratingsAverage}/><small>{p.ratingsAverage} ({p.ratingsQuantity})</small></div><div className="card-bottom"><strong>{money(p.price)}</strong><ActionButton className="add-button" action={() => addToCart(p._id)} requireAuth disabled={p.quantity < 1} aria-label={`Add ${p.title} to cart`}><Icon name="plus"/></ActionButton></div></div></article>;
+}
+export function ProductGrid({ products }) { return products.length ? <div className="product-grid">{products.map(p => <ProductCard key={p._id} product={p}/>)}</div> : <Empty title="No products found" text="Try another search or browse our full collection." icon="search"/>; }

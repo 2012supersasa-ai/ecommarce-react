@@ -1,0 +1,4 @@
+import { Hero } from '../components/Ui';
+export default function SupportPage() {
+  return <><Hero title="Help & Support" subtitle="A little help with your next find" icon="headset"/><section className="content narrow"><div className="panel"><h2>Shopping with FreshCart</h2><details open><summary>How do I place an order?</summary><p>Sign in, add products to your cart, and choose Checkout. Review your shipping details before confirming.</p></details><details><summary>How do payments work?</summary><p>Choose cash on delivery or complete your online payment on the secure Stripe checkout page.</p></details><details><summary>Where can I check my order?</summary><p>Open My Account, then View orders. Your order history shows payment and delivery status from the store.</p></details><details><summary>How do I reset my password?</summary><p>Select Forgot password on the sign-in page, verify the email code, and set a new password.</p></details></div></section></>;
+}
